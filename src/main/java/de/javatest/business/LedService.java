@@ -46,11 +46,11 @@ public class LedService {
         gpio.toggle();
     }
 
-    public void blink() {
+    public void wink() {
         for (int i = 1; i < 5; i++) {
             gpio.toggle();
             try {
-                Thread.sleep(1000);
+                Thread.sleep(500);
             } catch (InterruptedException ex) {
                 Logger.getLogger(LedService.class.getName()).log(Level.SEVERE, null, ex);
             }

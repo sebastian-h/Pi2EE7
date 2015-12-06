@@ -44,7 +44,7 @@ public class index {
     }
 
     public String blink() {
-        ledService.blink();
+        ledService.wink();
         return "";
     }
 }
