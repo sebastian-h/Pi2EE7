@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <title>Pi2EE7 - JEE7 LED Control for RaspberryPi</title>
+    </h:head>
+    
+    <h1>Pi2EE7 - JEE7 LED Control for RaspberryPi</h1>
+    <h:body>
+        Hostname: <h:outputText value="${index.hostname}" />
+        <h:form>
+            <h:outputText value="${index.ledStatus}"/>
+            <h:commandButton value="toggle" action="${index.toggle}" />
+            <h:commandButton value="blink" action="${index.blink}" /><br />
+            <h:link value="refresh" outcome="index"/> <br />
+        </h:form>
+        <h:graphicImage alt="Raspberry Pi P1 Header" value="/resources/img/p1header-large.png" />
+        
+       
+               
+    </h:body>
+</html>
+
