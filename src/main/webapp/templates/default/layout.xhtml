@@ -1,0 +1,50 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+    </h:head>
+    <h:body role="document">
+
+
+        <h:outputStylesheet library="css" name="bootstrap.css"  />
+        <h:outputStylesheet library="css" name="bootstrap-theme.css"  />
+
+
+
+        <div id="page">
+
+            <ui:insert name="header">
+                <ui:include src="header.xhtml" />
+            </ui:insert>
+            <div class="container theme-showcase" role="main">
+                <div id="messages-container">
+                    <div id="messages">
+                        <ui:insert name="messages">
+                            <ui:include src="messages.xhtml" />
+                        </ui:insert>
+                    </div>
+                </div>
+
+
+                <ui:insert name="content">
+                    Main content
+                </ui:insert>
+
+                <div class="well">
+                    <div id="footer-container">
+                        <div id="footer">
+                            <ui:insert name="footer">
+                                <ui:include src="footer.xhtml" />
+                            </ui:insert>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <h:outputScript library="js" name="bootstrap.js" target="body" />
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->    
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    </h:body>
+</html>
