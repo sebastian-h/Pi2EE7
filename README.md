@@ -20,4 +20,4 @@ Currently this piece of software is developed on OSX and Linux using Netbeans an
 
 To accomplish these tasks Pi2EE7 uses the following frameworks or "external dependencies".
 
-Sure, all trademarks remain with the respective owners.
+Sure, all trademarks remain with the respective owners..
