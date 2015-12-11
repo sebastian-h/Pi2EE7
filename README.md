@@ -14,7 +14,7 @@ Roadmap (in no particluar order):
 * read rss feeds
 * use some form of display (like 24 character LCD-Display or something)
 
-lets see how far we come
+lets see how far we come...
 
 Currently this piece of software is developed on OSX and Linux using Netbeans and Glassfish. It is then run in "production" on a raspberry pi using IBM Websphere Liberty.
 
