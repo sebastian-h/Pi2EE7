@@ -24,6 +24,9 @@ import javax.enterprise.inject.Model;
 import javax.inject.Inject;
 
 /**
+ * This is the controller class for the index.xhtml "landing" page.
+ *
+ * It enables dynamic content in the Web-UI ands acts upon form submits.
  *
  * @author sebastian
  */
@@ -33,6 +36,11 @@ public class index {
     @Inject
     LedService ledService;
 
+    /**
+     * lookup the hostname the app is running on
+     *
+     * @return String the hostname
+     */
     public String getHostname() {
         InetAddress inetAddress = null;
         try {
@@ -50,6 +58,12 @@ public class index {
         return "Led status is: " + ledService.getState();
     }
 
+    /**
+     * acts upon form submit (button pressed), changes the state of the led and
+     * redirects back to the page
+     *
+     * @return  String  The xhtml page to render as the response. (?)
+     */
     public String toggle() {
         ledService.toggle();
         return "";

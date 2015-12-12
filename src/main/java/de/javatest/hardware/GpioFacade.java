@@ -20,6 +20,26 @@ package de.javatest.hardware;
 import javax.ejb.Singleton;
 
 /**
+ * I guess this is like a factory for selecting the implementation of GPIO bades
+ * upon the hardware the app is running on.
+ *
+ * There is a problem with developing for the raspberry pi locally on a normal
+ * computer: the pi4j framework will constantly throw errors, running the
+ * software was impossible (for me at least).
+ *
+ * I have selected the strategy of facade / factory to get the right singleton
+ * implementation based upon the hardware architecture: arm / not arm.
+ *
+ * In case of running on an arm architecture (rpi) this bean always returns the
+ * same instance of GpioInterface implementation enabling control of the
+ * hardware.
+ *
+ * In case of running on any other architecture (eg: x86) this bean returns a
+ * mock implementation of the GpioInterface doing no more than making some log
+ * statements to represent what is going of with the led (like turn on, off,
+ * getState and so on.)
+ * 
+ * This is probably not the best way to accomplish what ii was looking for.
  *
  * @author sebastian
  */

@@ -18,6 +18,11 @@
 package de.javatest.hardware;
 
 /**
+ * actual interface to the led functionality.
+ * 
+ * business functionality for turning the led on / off, changing state and so on.
+ *
+ * should have javadoc for the methods, but should be self-explanatory..
  *
  * @author sebastian
  */
