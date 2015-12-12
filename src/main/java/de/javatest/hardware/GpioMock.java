@@ -17,43 +17,49 @@
  */
 package de.javatest.hardware;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  *
  * @author sebastian
  */
 public class GpioMock implements GpioInterface {
 
-    private boolean status;
-
+    private Map<Integer,Boolean> pinStates; 
     GpioMock() {
-        status = false;
+        pinStates = new HashMap();
+        pinStates.put(1,false);
+        pinStates.put(2, false);
     }
 
     @Override
-    public boolean isOn() {
-        System.out.println("GpioMock: status:" + this.status);
+    public boolean isOn(Integer pinNumber) {
+        boolean status = this.pinStates.get(pinNumber);
+        System.out.println("GpioMock: getStatus:" + status + " for Pin Number: " + pinNumber);
         return status;
     }
 
     @Override
-    public String toggle() {
-         System.out.println("GpioMock: toggle");
-        if (this.status) {
-            this.status = false;
-            return "turned off";
+    public String toggle(Integer pinNumber) {
+        System.out.println("GpioMock: toggle for: " + pinNumber);
+        boolean status = this.pinStates.get(pinNumber);
+        if (status) {
+            this.pinStates.put(pinNumber, false);
+            return "turned off pin " + pinNumber;
         } else {
-            this.status = true;
-            return "turned on";
+            this.pinStates.put(pinNumber, true);
+            return "turned on pin " + pinNumber;
         }
     }
 
     @Override
-    public String turnOff() {
+    public String turnOff(Integer pinNumber) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public String turnOn() {
+    public String turnOn(Integer pinNumber) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

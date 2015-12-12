@@ -22,8 +22,9 @@ import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.PinState;
 import com.pi4j.io.gpio.RaspiPin;
+import java.util.HashMap;
+import java.util.Map;
 import javax.annotation.PreDestroy;
-
 
 /**
  *
@@ -32,44 +33,54 @@ import javax.annotation.PreDestroy;
 public class GpioHardware implements GpioInterface {
 
     final GpioController gpio;
-    final GpioPinDigitalOutput pin;
+    final GpioPinDigitalOutput pin1;
+    final GpioPinDigitalOutput pin2;
+
+    final Map<Integer, GpioPinDigitalOutput> pins;
 
     public GpioHardware() {
         System.out.println("<--Pi4J--> GPIO Control Example ... started.");
 
         // create gpio controller
         gpio = GpioFactory.getInstance();
+        pins = new HashMap();
 
-        // provision gpio pin #01 as an output pin and turn on
-        pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, "MyLED", PinState.LOW);
+        // provision gpio pin #01 as an output pin and turn off
+        pin1 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, "MyLED", PinState.LOW);
+        pins.put(1, pin1);
+
+        pin2 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_02, "MyLED", PinState.LOW);
+        pins.put(2, pin2);
 
         // set shutdown state for this pin
-        pin.setShutdownOptions(true, PinState.LOW);
+        pin1.setShutdownOptions(true, PinState.LOW);
+        pin2.setShutdownOptions(true, PinState.LOW);
 
         System.out.println("--> GPIO state should be: OFF");
 
     }
 
     @Override
-    public boolean isOn() {
-        return pin.getState().isHigh();
+    public boolean isOn(Integer pinNumber) {
+        return pins.get(pinNumber).getState().isHigh();
+        
     }
 
     @Override
-    public String turnOn() {
-        pin.high();
+    public String turnOn(Integer pinNumber) {
+        pins.get(pinNumber).high();
         return "LED should be on";
     }
 
     @Override
-    public String turnOff() {
-        pin.low();
+    public String turnOff(Integer pinNumber) {
+        pins.get(pinNumber).low();
         return "LED should be off";
     }
 
     @Override
-    public String toggle() {
-        pin.toggle();
+    public String toggle(Integer pinNumber) {
+        pins.get(pinNumber).toggle();
         return "PIN state should have changed";
     }
 

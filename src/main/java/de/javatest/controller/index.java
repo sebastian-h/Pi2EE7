@@ -21,6 +21,7 @@ import de.javatest.business.LedService;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import javax.enterprise.inject.Model;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 /**
@@ -32,7 +33,7 @@ import javax.inject.Inject;
  */
 @Model
 public class index {
-
+    
     @Inject
     LedService ledService;
 
@@ -53,24 +54,44 @@ public class index {
         System.out.println("Machine name: " + nodeName);
         return nodeName;
     }
-
-    public String getLedStatus() {
-        return "Led status is: " + ledService.getState();
+    
+    public String getLedStatusRed() {
+        return "Led status is: " + ledService.getState(1);
+    }
+    
+    public String getLedStatusGreen() {
+        return "Led status is: " + ledService.getState(2);
     }
 
     /**
      * acts upon form submit (button pressed), changes the state of the led and
      * redirects back to the page
      *
-     * @return  String  The xhtml page to render as the response. (?)
+     * @return String The xhtml page to render as the response. (?)
      */
     public String toggle() {
-        ledService.toggle();
+        String value = "";
+        value = FacesContext.getCurrentInstance().
+                getExternalContext().getRequestParameterMap().get("ledColor");
+        if (value.equals("RED")) {
+            ledService.toggle(1);
+        }
+        if (value.equals("GREEN")) {
+            ledService.toggle(2);
+        }
         return "";
     }
-
+    
     public String blink() {
-        ledService.wink();
+        String value;
+        value = FacesContext.getCurrentInstance().
+                getExternalContext().getRequestParameterMap().get("ledColor");
+        if (value.equals("RED")) {
+            ledService.wink(1);
+        }
+        if (value.equals("GREEN")) {
+            ledService.wink(2);
+        }
         return "";
     }
 }

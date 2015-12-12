@@ -59,11 +59,12 @@ public class LedService {
     /**
      * retrieves the current state of illumination the LED.
      *
+     * @param Integer pinNumber sets the PinNumber to query
      * @return String a text showing it the LED is on or off at the moment of
      * invocation.
      */
-    public String getState() {
-        if (gpio.isOn()) {
+    public String getState(Integer pinNumber) {
+        if (gpio.isOn(pinNumber)) {
             return "should be ON";
         }
         return "should be OFF";
@@ -73,19 +74,19 @@ public class LedService {
      * switches the state of the LED. If it was on it will be turned off, if it
      * was on it will be turned off.
      */
-    public void toggle() {
-        gpio.toggle();
+    public void toggle(Integer pinNumber) {
+        gpio.toggle(pinNumber);
     }
     
 
     /**
      * flashes the led (or "winks" at you).
      */
-     public void wink() {
-        for (int i = 1; i < 5; i++) {
-            gpio.toggle();
+     public void wink(Integer pinNumber) {
+        for (int i = 1; i < 9; i++) {
+            gpio.toggle(pinNumber);
             try {
-                Thread.sleep(500);
+                Thread.sleep(250);
             } catch (InterruptedException ex) {
                 Logger.getLogger(LedService.class.getName()).log(Level.SEVERE, null, ex);
             }

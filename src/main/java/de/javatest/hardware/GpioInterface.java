@@ -28,12 +28,12 @@ package de.javatest.hardware;
  */
 public interface GpioInterface {
 
-    boolean isOn();
+    boolean isOn(Integer gpioNumber);
 
-    String toggle();
+    String toggle(Integer gpioNumber);
 
-    String turnOff();
+    String turnOff(Integer gpioNumber);
 
-    String turnOn();
+    String turnOn(Integer gpioNumber);
     
 }

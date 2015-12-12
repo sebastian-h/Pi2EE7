@@ -20,8 +20,19 @@
                     <h1>LED Control</h1>
                 </div>
                 <p>
-                    <h:outputText value="${index.ledStatus}"/>
+                    <h2>Red LED</h2>
+                    <h:outputText value="${index.ledStatusRed}"/>
+                    <h:form >
+                        <h:inputHidden id="ledColor" value="RED" />
+                        <h:commandButton value="Toggle" action="${index.toggle}" class="btn btn-lg btn-default" />&nbsp;
+                        <h:commandButton value="Blink" action="${index.blink}" class="btn btn-lg btn-default"/>
+                    </h:form>
+                </p>
+                <p>
+                    <h2>Green LED</h2>
+                    <h:outputText value="${index.ledStatusGreen}"/>
                     <h:form>
+                        <h:inputHidden id="ledColor" value="GREEN" />
                         <h:commandButton value="Toggle" action="${index.toggle}" class="btn btn-lg btn-default" />&nbsp;
                         <h:commandButton value="Blink" action="${index.blink}" class="btn btn-lg btn-default"/>
                         <br />
