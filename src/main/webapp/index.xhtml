@@ -20,21 +20,14 @@
                     <h1>LED Control</h1>
                 </div>
                 <p>
+                    <h:outputText value="${index.ledStatus}"/>
                     <h:form>
-                        <h:outputText value="${index.ledStatus}"/><br />
                         <h:commandButton value="Toggle" action="${index.toggle}" class="btn btn-lg btn-default" />&nbsp;
-                        <h:commandButton value="Blink" action="${index.blink}" class="btn btn-lg btn-default"/>&nbsp;
-                        <h:link value="Refresh" outcome="index" class="btn btn-lg btn-primary"/> <br />
+                        <h:commandButton value="Blink" action="${index.blink}" class="btn btn-lg btn-default"/>
+                        <br />
+                        <br />
+                        <h:link value="Refresh" outcome="index" class="btn btn-lg btn-primary"/>
                     </h:form>
-                </p>
-
-                <div class="page-header">
-                    <h1>rPi - GPIO Pinout</h1>
-                </div>
-                <p>
-                    <h:link target="_blank" outcome="/resources/img/p1header-large.png">
-                        <h:graphicImage width="200" height="300" alt="Raspberry Pi P1 Header" value="/resources/img/p1header-large.png" />
-                    </h:link>
                 </p>
 
             </ui:define>
