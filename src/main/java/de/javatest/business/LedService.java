@@ -17,6 +17,7 @@
  */
 package de.javatest.business;
 
+import com.sun.glass.ui.SystemClipboard;
 import de.javatest.hardware.GpioFacade;
 import de.javatest.hardware.GpioInterface;
 import java.util.Date;
@@ -29,6 +30,9 @@ import javax.inject.Inject;
 /**
  *
  * @author sebastian
+ */
+/**
+ * This is the BusinessService to control a led connected to PIN 1.
  */
 @Stateless
 public class LedService {
@@ -43,10 +47,21 @@ public class LedService {
         gpio = gpioFacade.getInstance();
     }
 
+    /**
+     * pings the service to see if it is alive and answering requests
+     *
+     * @return String a text containing the current time
+     */
     public String ping() {
-        return "Hello at: " + new Date();
+        return "LedService is ready. System time: " + System.currentTimeMillis();
     }
 
+    /**
+     * retrieves the current state of illumination the LED.
+     *
+     * @return String a text showing it the LED is on or off at the moment of
+     * invocation.
+     */
     public String getState() {
         if (gpio.isOn()) {
             return "should be ON";
@@ -54,11 +69,19 @@ public class LedService {
         return "should be OFF";
     }
 
+    /**
+     * switches the state of the LED. If it was on it will be turned off, if it
+     * was on it will be turned off.
+     */
     public void toggle() {
         gpio.toggle();
     }
+    
 
-    public void wink() {
+    /**
+     * flashes the led (or "winks" at you).
+     */
+     public void wink() {
         for (int i = 1; i < 5; i++) {
             gpio.toggle();
             try {
