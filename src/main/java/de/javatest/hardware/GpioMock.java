@@ -25,21 +25,22 @@ import java.util.Map;
  * @author sebastian
  */
 public class GpioMock implements GpioInterface {
-
-    private Map<Integer,Boolean> pinStates; 
+    
+    private Map<Integer, Boolean> pinStates;
+    
     GpioMock() {
         pinStates = new HashMap();
-        pinStates.put(1,false);
+        pinStates.put(1, false);
         pinStates.put(2, false);
     }
-
+    
     @Override
     public boolean isOn(Integer pinNumber) {
         boolean status = this.pinStates.get(pinNumber);
         System.out.println("GpioMock: getStatus:" + status + " for Pin Number: " + pinNumber);
         return status;
     }
-
+    
     @Override
     public String toggle(Integer pinNumber) {
         System.out.println("GpioMock: toggle for: " + pinNumber);
@@ -52,15 +53,17 @@ public class GpioMock implements GpioInterface {
             return "turned on pin " + pinNumber;
         }
     }
-
+    
     @Override
     public String turnOff(Integer pinNumber) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.pinStates.put(pinNumber, false);
+        return "turned off pin " + pinNumber;
     }
-
+    
     @Override
     public String turnOn(Integer pinNumber) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.pinStates.put(pinNumber, true);
+        return "turned on pin " + pinNumber;
     }
-
+    
 }

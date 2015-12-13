@@ -15,30 +15,63 @@
                     <h1>Pi2EE7</h1>
                     <p>JEE7 LED Control for Raspberry Pi</p>
                 </div>
-
                 <div class="page-header">
                     <h1>LED Control</h1>
                 </div>
+                <ui:insert name="messages">
+                    <ui:include src="templates/default/messages.xhtml"/>
+                </ui:insert>
                 <p>
-                    <h2>Red LED</h2>
-                    <h:outputText value="${index.ledStatusRed}"/>
-                    <h:form >
-                        <h:inputHidden id="ledColor" value="RED" />
-                        <h:commandButton value="Toggle" action="${index.toggle}" class="btn btn-lg btn-default" />&nbsp;
-                        <h:commandButton value="Blink" action="${index.blink}" class="btn btn-lg btn-default"/>
+                    <span style="color:red; font-weight: bold">Red</span>&nbsp;<h:outputText value="${index.ledStatusAsTextRed}"/>
+                    <h:form>
+                        <input type="hidden" name="ledColor" value="RED" />
+                        <h:commandButton value="Toggle" action="${index.toggleRed}" class="btn btn-default" />&nbsp;
+                        <h:commandButton value="Wink" action="${index.blinkRed}" class="btn btn-default"/>
+                        <br />
+                        <br />
+
                     </h:form>
                 </p>
                 <p>
-                    <h2>Green LED</h2>
-                    <h:outputText value="${index.ledStatusGreen}"/>
+                    <span style="color:green; font-weight: bold">Green</span>&nbsp;<h:outputText value="${index.ledStatusAsTextGreen}"/>
                     <h:form>
-                        <h:inputHidden id="ledColor" value="GREEN" />
-                        <h:commandButton value="Toggle" action="${index.toggle}" class="btn btn-lg btn-default" />&nbsp;
-                        <h:commandButton value="Blink" action="${index.blink}" class="btn btn-lg btn-default"/>
+                        <input type="hidden" name="ledColor" value="GREEN" />
+                        <h:commandButton value="Toggle" action="${index.toggleGreen}" class="btn btn-default" />&nbsp;
+                        <h:commandButton value="Wink" action="${index.blinkGreen}" class="btn btn-default"/>
                         <br />
                         <br />
-                        <h:link value="Refresh" outcome="index" class="btn btn-lg btn-primary"/>
+
                     </h:form>
+
+                </p>
+                <p>
+                    <span style="font-weight: bold">Blinking (Async)</span>
+
+                    <h:form>
+                        <input type="hidden" name="ledColor" value="RED" />
+                        <h:outputLabel for="blinkingRate" value="Rate" />
+                        <h:inputText id="blinkingRate" value="${index.rate}" maxlength="1000" size="4"/>&nbsp;&nbsp;
+                        <h:outputLabel for="blinkingReps" value="Reps" />
+                        <h:inputText id="blinkingReps" value="${index.reps}" maxlength="1000" size="4"/> 
+                        <h:commandButton value="Blink (Async)" action="${index.blinkAsync()}" class="btn btn-danger "/>
+                    </h:form>
+                    <br />
+
+                    <h:form>
+                        <input type="hidden" name="ledColor" value="GREEN" />
+                        <h:outputLabel for="blinkingRate" value="Rate" />
+                        <h:inputText id="blinkingRate" value="${index.rate}" size="4">
+                            <f:validateLength maximum="3" /> 
+                        </h:inputText>&nbsp;&nbsp;
+                        <h:outputLabel for="blinkingReps" value="Reps" />
+                        <h:inputText id="blinkingReps" value="${index.reps}" maxlength="4" size="4">
+                            <f:validateLongRange minimum="1" maximum="999" />
+                        </h:inputText> 
+                        <h:commandButton value="Blink (Async)" action="${index.blinkAsync()}" class="btn btn-success"/>
+                    </h:form>
+                </p>
+                <p>
+                    <h:link value="Refresh" outcome="index" class="btn btn-primary"/>
                 </p>
 
             </ui:define>

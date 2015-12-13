@@ -35,5 +35,5 @@ public interface GpioInterface {
     String turnOff(Integer gpioNumber);
 
     String turnOn(Integer gpioNumber);
-    
+   
 }

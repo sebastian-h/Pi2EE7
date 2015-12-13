@@ -17,13 +17,12 @@
  */
 package de.javatest.business;
 
-import com.sun.glass.ui.SystemClipboard;
 import de.javatest.hardware.GpioFacade;
 import de.javatest.hardware.GpioInterface;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
@@ -60,14 +59,14 @@ public class LedService {
      * retrieves the current state of illumination the LED.
      *
      * @param Integer pinNumber sets the PinNumber to query
-     * @return String a text showing it the LED is on or off at the moment of
-     * invocation.
+     * @return boolean true if the LED is on or false if it is off at the moment
+     * of invocation.
      */
-    public String getState(Integer pinNumber) {
+    public boolean getState(Integer pinNumber) {
         if (gpio.isOn(pinNumber)) {
-            return "should be ON";
+            return true;
         }
-        return "should be OFF";
+        return false;
     }
 
     /**
@@ -77,21 +76,35 @@ public class LedService {
     public void toggle(Integer pinNumber) {
         gpio.toggle(pinNumber);
     }
-    
 
     /**
      * flashes the led (or "winks" at you).
      */
-     public void wink(Integer pinNumber) {
+    public void wink(Integer pinNumber) {
         for (int i = 1; i < 9; i++) {
             gpio.toggle(pinNumber);
             try {
-                Thread.sleep(250);
+                Thread.sleep(150);
             } catch (InterruptedException ex) {
                 Logger.getLogger(LedService.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         }
 
+    }
+
+    @Asynchronous
+    public void blink(Integer pinNumber, Integer rate, Integer iterations) {
+        for (int i = 1; i < iterations; i++) {
+            gpio.toggle(pinNumber);
+            System.out.println("iteration" + i);
+            try {
+                Thread.sleep(rate);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(LedService.class.getName()).log(Level.SEVERE, null, ex);
+                break;
+            }
+
+        }
     }
 }

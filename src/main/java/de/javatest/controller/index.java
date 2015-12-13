@@ -21,6 +21,7 @@ import de.javatest.business.LedService;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import javax.enterprise.inject.Model;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
@@ -33,9 +34,28 @@ import javax.inject.Inject;
  */
 @Model
 public class index {
-    
+
     @Inject
     LedService ledService;
+
+    private Integer reps;
+    private Integer rate;
+
+    public Integer getReps() {
+        return reps;
+    }
+
+    public void setReps(Integer reps) {
+        this.reps = reps;
+    }
+
+    public Integer getRate() {
+        return rate;
+    }
+
+    public void setRate(Integer rate) {
+        this.rate = rate;
+    }
 
     /**
      * lookup the hostname the app is running on
@@ -54,13 +74,23 @@ public class index {
         System.out.println("Machine name: " + nodeName);
         return nodeName;
     }
-    
-    public String getLedStatusRed() {
-        return "Led status is: " + ledService.getState(1);
+
+    public String getLedStatusAsTextRed() {
+        if (ledService.getState(1)) {
+            return "status is: should be ON";
+        }
+        else {
+            return "status is: should be OFF";
+        }
     }
-    
-    public String getLedStatusGreen() {
-        return "Led status is: " + ledService.getState(2);
+
+    public String getLedStatusAsTextGreen() {
+        if (ledService.getState(2)) {
+            return "status is: should be ON";
+        }
+        else {
+            return "status is: should be OFF";
+        }
     }
 
     /**
@@ -69,29 +99,50 @@ public class index {
      *
      * @return String The xhtml page to render as the response. (?)
      */
-    public String toggle() {
-        String value = "";
-        value = FacesContext.getCurrentInstance().
-                getExternalContext().getRequestParameterMap().get("ledColor");
-        if (value.equals("RED")) {
-            ledService.toggle(1);
-        }
-        if (value.equals("GREEN")) {
-            ledService.toggle(2);
-        }
-        return "";
+    public String toggleRed() {
+        ledService.toggle(1);
+        return "index";
     }
-    
-    public String blink() {
-        String value;
-        value = FacesContext.getCurrentInstance().
-                getExternalContext().getRequestParameterMap().get("ledColor");
-        if (value.equals("RED")) {
-            ledService.wink(1);
-        }
-        if (value.equals("GREEN")) {
-            ledService.wink(2);
-        }
-        return "";
+
+    public String blinkRed() {
+        ledService.wink(1);
+        return "index";
     }
+
+    /**
+     * acts upon form submit (button pressed), changes the state of the led and
+     * redirects back to the page
+     *
+     * @return String The xhtml page to render as the response. (?)
+     */
+    public String toggleGreen() {
+        ledService.toggle(2);
+        return "index";
+    }
+
+    public String blinkGreen() {
+        ledService.wink(2);
+        return "index";
+    }
+
+    public String blinkAsync() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        String ledColor = context.getExternalContext().getRequestParameterMap().get("ledColor");
+        if ((null == this.rate) || (null == this.reps)) {
+            context.addMessage("", new FacesMessage("Rate or Reps are NULL!"));
+            return "index";
+        }
+
+        if (ledColor.equals("RED")) {
+            ledService.blink(1, this.rate, this.reps);
+            context.addMessage("", new FacesMessage("Blinking started. (led: " + ledColor + ", rate: " + this.rate + ", reps: " + this.reps));
+        } else if (ledColor.equals("GREEN")) {
+            ledService.blink(2, this.rate, this.reps);
+            context.addMessage("", new FacesMessage("Blinking started. (led: " + ledColor + ", rate: " + this.rate + ", reps: " + this.reps));
+        } else {
+            context.addMessage("", new FacesMessage("No color given, no action taken."));
+        }
+        return "index";
+    }
+
 }
