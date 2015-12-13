@@ -15,13 +15,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package de.javatest.controller;
+package de.pi2ee7.controller;
 
-import de.javatest.business.LedService;
+import de.pi2ee7.business.LedService;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.concurrent.Future;
 import javax.enterprise.inject.Model;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
@@ -38,8 +40,8 @@ public class index {
     @Inject
     LedService ledService;
 
-    private Integer reps;
-    private Integer rate;
+    private Integer reps = 25;
+    private Integer rate = 25;
 
     public Integer getReps() {
         return reps;
@@ -78,8 +80,7 @@ public class index {
     public String getLedStatusAsTextRed() {
         if (ledService.getState(1)) {
             return "status is: should be ON";
-        }
-        else {
+        } else {
             return "status is: should be OFF";
         }
     }
@@ -87,8 +88,7 @@ public class index {
     public String getLedStatusAsTextGreen() {
         if (ledService.getState(2)) {
             return "status is: should be ON";
-        }
-        else {
+        } else {
             return "status is: should be OFF";
         }
     }
@@ -129,16 +129,15 @@ public class index {
         FacesContext context = FacesContext.getCurrentInstance();
         String ledColor = context.getExternalContext().getRequestParameterMap().get("ledColor");
         if ((null == this.rate) || (null == this.reps)) {
-            context.addMessage("", new FacesMessage("Rate or Reps are NULL!"));
+            context.addMessage("", new FacesMessage("Rate or Repetitions are NULL, no action taken."));
             return "index";
         }
-
         if (ledColor.equals("RED")) {
             ledService.blink(1, this.rate, this.reps);
-            context.addMessage("", new FacesMessage("Blinking started. (led: " + ledColor + ", rate: " + this.rate + ", reps: " + this.reps));
+            context.addMessage("", new FacesMessage("Blinking started. (led: " + ledColor + ", rate: " + this.rate + ", reps: " + this.reps + ")"));
         } else if (ledColor.equals("GREEN")) {
             ledService.blink(2, this.rate, this.reps);
-            context.addMessage("", new FacesMessage("Blinking started. (led: " + ledColor + ", rate: " + this.rate + ", reps: " + this.reps));
+            context.addMessage("", new FacesMessage("Blinking started. (led: " + ledColor + ", rate: " + this.rate + ", reps: " + this.reps + ")"));
         } else {
             context.addMessage("", new FacesMessage("No color given, no action taken."));
         }

@@ -15,14 +15,18 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package de.javatest.business;
+package de.pi2ee7.business;
 
-import de.javatest.hardware.GpioFacade;
-import de.javatest.hardware.GpioInterface;
+import de.pi2ee7.hardware.GpioFacade;
+import de.pi2ee7.hardware.GpioInterface;
+import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import javax.ejb.AsyncResult;
 import javax.ejb.Asynchronous;
+import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
@@ -35,6 +39,9 @@ import javax.inject.Inject;
  */
 @Stateless
 public class LedService {
+
+    @Resource
+    SessionContext sessionContext;
 
     GpioInterface gpio;
 
@@ -94,8 +101,11 @@ public class LedService {
     }
 
     @Asynchronous
-    public void blink(Integer pinNumber, Integer rate, Integer iterations) {
+    public Future<String> blink(Integer pinNumber, Integer rate, Integer iterations) {
         for (int i = 1; i < iterations; i++) {
+            if (sessionContext.wasCancelCalled()) {
+                break;
+            }
             gpio.toggle(pinNumber);
             System.out.println("iteration" + i);
             try {
@@ -104,7 +114,9 @@ public class LedService {
                 Logger.getLogger(LedService.class.getName()).log(Level.SEVERE, null, ex);
                 break;
             }
-
         }
+        String status = "Finished!";
+        return new AsyncResult<>(status);
     }
+
 }
