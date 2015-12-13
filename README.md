@@ -3,7 +3,7 @@ Raspberry Pi in JEE7 Integration
 
 This project tries to give me, and maybe some others, some insight into JEE7 development and the work nessesasy to integrate a raspberry pi into the mix.
 
-Currently "we" support turning on one (exaclty one) LED. Sounds like nothing, well, give it a shot.
+Currently "we" support turning on two (exaclty two) LEDs (a red one and a green one). Sounds like nothing, well, give it a shot.
 
 Roadmap (in no particluar order):
 
